@@ -43,7 +43,7 @@ class Execute extends Module {
                       io.reg1_data)
   alu.io.op2  := Mux(io.aluop2_source.asBool,
                       io.immediate,
-                      io.reg1_data)
+                      io.reg2_data)
   // lab3(Execute) end
 
   io.mem_alu_result := alu.io.result
