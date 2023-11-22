@@ -113,3 +113,33 @@ class ByteAccessTest extends AnyFlatSpec with ChiselScalatestTester {
     }
   }
 }
+
+class mul_clz_Test extends AnyFlatSpec with ChiselScalatestTester {
+  behavior.of("Single Cycle CPU")
+  it should "0x1234567 * 0xffffdddd = 0x1234540a8f5c3d98" in {
+    test(new TestTopModule("mul_clz.asmbin")).withAnnotations(TestAnnotations.annos) { c =>
+      for (i <- 1 to 50) {
+        c.clock.step(1000)
+        c.io.mem_debug_read_address.poke((i * 4).U) // Avoid timeout
+      }
+      c.io.regs_debug_read_address.poke(18.U)
+      c.io.regs_debug_read_data.expect(0x1234540aL.U)
+      c.io.regs_debug_read_address.poke(19.U)
+      c.io.regs_debug_read_data.expect(0x8f5c3d98L.U)
+    }
+  }
+}
+
+class nmslTest extends AnyFlatSpec with ChiselScalatestTester {
+  behavior.of("Single Cycle CPU")
+  it should "test" in {
+    test(new TestTopModule("nmsl.asmbin")).withAnnotations(TestAnnotations.annos) { c =>
+      for (i <- 1 to 50) {
+        c.clock.step(1000)
+        c.io.mem_debug_read_address.poke((i * 4).U) // Avoid timeout
+      }
+      c.io.regs_debug_read_address.poke(19.U)
+      c.io.regs_debug_read_data.expect(1.U)
+    }
+  }
+}
