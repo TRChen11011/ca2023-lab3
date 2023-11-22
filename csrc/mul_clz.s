@@ -128,7 +128,7 @@ exit:
     addi sp, sp, 4
     li a1, 4
     jal print_ascii
-    mv t0, a0
+    addi t0, a0, 0
     li a0, 1
     la a1, buffer
     li a2, 4
@@ -153,16 +153,16 @@ get_cycles:
     ret
 
 print_ascii:
-    mv t0, a0     # load integer
+    addi t0, a0, 0# load integer
     li t1, 0      # t1 = quotient
     li t2, 0      # t2 = reminder
     li t3, 10     # t3 = divisor
-    mv t4, a1     # t4 = count round
+    addi t4, a1, 0# t4 = count round
 
 check_less_then_ten:
     bge t0, t3, divide
-    mv t2, t0
-    mv t0, t1    # t0 = quotient
+    addi t2, t0, 0
+    addi t0, t1, 0    # t0 = quotient
     j to_ascii
 
 divide:
